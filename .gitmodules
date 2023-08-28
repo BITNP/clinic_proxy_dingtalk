@@ -1,0 +1,3 @@
+[submodule "clinic_wechat"]
+	path = clinic_wechat
+	url = git@github.com:BITNP/clinic_wechat.git
