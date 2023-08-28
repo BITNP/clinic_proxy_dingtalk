@@ -1,10 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <PublishAot>true</PublishAot>
     <ServerGarbageCollection>false</ServerGarbageCollection>
     <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
+    <DefaultItemExcludes>$(DefaultItemExcludes);clinic_wechat//**</DefaultItemExcludes>
   </PropertyGroup>
 
 </Project>
