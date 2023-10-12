@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>disable</Nullable>
     <PublishAot>true</PublishAot>
+    <StripSymbols>true</StripSymbols>
     <ServerGarbageCollection>false</ServerGarbageCollection>
     <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
     <DefaultItemExcludes>$(DefaultItemExcludes);clinic_wechat//**</DefaultItemExcludes>

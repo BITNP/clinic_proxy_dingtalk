@@ -9,12 +9,10 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
 using System.Net.Http;
-using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 var builder = WebApplication. CreateSlimBuilder(args);
@@ -53,7 +51,7 @@ var _host = app.Configuration["backend"];
 var _apikey = app.Configuration["apikey"];
 
 app.MapGet("/", async context => {
-    await context.Response.WriteAsync("BITNP clinic proxy for i-bit / dingtalk. Copyright 2023 BITNP, All Rights Reserved.");
+    await context.Response.WriteAsync("BITNP clinic proxy for i-bit / dingtalk.");
 });
 
 app.MapGet("/user", async context =>
@@ -66,7 +64,6 @@ app.MapGet("/user", async context =>
     }
     else
     {
-        _logger.LogInformation("Cached job number {n} for {code}", s, savedToken);
         await context.Response.WriteAsync("{\"status\":200}");
     }
 });
@@ -106,7 +103,6 @@ app.MapPost("/user", async context =>
     }
 
     _ = _cache.Set(authCode, userJobNumber, new MemoryCacheEntryOptions() { SlidingExpiration = TimeSpan.FromHours(2) });
-    _logger.LogInformation("Got job number {n} for authcode {code}", userJobNumber, authCode);
     await context.Response.WriteAsync($"{{\"status\":500,\"student_id\":{userJobNumber}}}");
 });
 app.MapGet("/proxy", async context =>
@@ -126,7 +122,6 @@ app.MapGet("/proxy", async context =>
         context.Response.StatusCode = 403;
         return;
     }
-    _logger.LogInformation("Proxy request {m} {url} for {user}", context.Request.Method, url, cachedUserName);
     var client = _clientFactory.CreateClient();
     HttpRequestMessage request = new();
     string requestUrl = _host + url;
@@ -167,7 +162,6 @@ app.MapPost("/proxy", async context =>
         context.Response.StatusCode = 403;
         return;
     }
-    _logger.LogInformation("Proxy request {m} {url} for {user}", context.Request.Method, url, cachedUserName);
     var client = _clientFactory.CreateClient();
     HttpRequestMessage request = new();
     string requestUrl = _host + url;
@@ -209,7 +203,6 @@ app.MapPut("/proxy", async context =>
         context.Response.StatusCode = 403;
         return;
     }
-    _logger.LogInformation("Proxy request {m} {url} for {user}", context.Request.Method, url, cachedUserName);
     var client = _clientFactory.CreateClient();
     HttpRequestMessage request = new();
     string requestUrl = _host + url;
@@ -251,7 +244,6 @@ app.MapDelete("/proxy", async context =>
         context.Response.StatusCode = 403;
         return;
     }
-    _logger.LogInformation("Proxy request {m} {url} for {user}", context.Request.Method, url, cachedUserName);
     var client = _clientFactory.CreateClient();
     HttpRequestMessage request = new();
     string requestUrl = _host + url;
