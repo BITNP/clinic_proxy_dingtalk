@@ -33,7 +33,8 @@ if (builder.Environment.IsDevelopment())
 }
 app.UseForwardedHeaders();
 
-app.UseStaticFiles(new StaticFileOptions
+app.UseStaticFiles();
+app.UseFileServer(new FileServerOptions
 {
     RequestPath = "/lightapp"
 });

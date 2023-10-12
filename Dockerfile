@@ -8,7 +8,12 @@ RUN npm install && \
 from mcr.microsoft.com/dotnet/sdk:8.0 AS build-proxy
 COPY . /build
 WORKDIR /build
+RUN rm /etc/apt/sources.list.d/debian.sources
+COPY deploy/sources.list /etc/apt/sources.list
+RUN apt-get update && \
+    apt-get install -y gcc zlib1g-dev binutils
 RUN dotnet publish -r linux-x64 -c Release
+RUN cd /build/bin/Release/net8.0/linux-x64/publish && strip clinic_proxy_dingtalk && rm clinic_proxy_dingtalk.dbg
 
 FROM debian:bookworm-slim
 ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
