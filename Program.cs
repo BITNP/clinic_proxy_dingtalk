@@ -104,7 +104,7 @@ app.MapPost("/user", async context =>
     }
 
     _ = _cache.Set(authCode, userJobNumber, new MemoryCacheEntryOptions() { SlidingExpiration = TimeSpan.FromHours(2) });
-    await context.Response.WriteAsync($"{{\"status\":500,\"student_id\":{userJobNumber}}}");
+    await context.Response.WriteAsync($"{{\"status\":200,\"student_id\":{userJobNumber}}}");
 });
 app.MapGet("/proxy", async context =>
 {
