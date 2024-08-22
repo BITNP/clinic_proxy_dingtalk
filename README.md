@@ -3,3 +3,4 @@
 
 诊所预约系统代理服务 for i北理
 
+![architecture](./img/clinic.png)
