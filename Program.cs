@@ -15,6 +15,8 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
+// Setup services
+
 var builder = WebApplication. CreateSlimBuilder(args);
 
 builder.Services.AddHttpClient();
@@ -38,6 +40,8 @@ app.UseFileServer(new FileServerOptions
 {
     RequestPath = "/lightapp"
 });
+
+// Proxy user authentication
 
 var getAccessTokenApi = "https://oapi.dingtalk.com/gettoken";
 var getUserInfoApi = "https://oapi.dingtalk.com/topapi/v2/user/getuserinfo";
@@ -106,6 +110,9 @@ app.MapPost("/user", async context =>
     _ = _cache.Set(authCode, userJobNumber, new MemoryCacheEntryOptions() { SlidingExpiration = TimeSpan.FromHours(2) });
     await context.Response.WriteAsync($"{{\"status\":200,\"student_id\":{userJobNumber}}}");
 });
+
+// Proxy handle GET/POST/PUT/DELETE requests
+
 app.MapGet("/proxy", async context =>
 {
     var remoteAddr = context.Connection.RemoteIpAddress?.ToString() ?? "0.0.0.0";
@@ -272,6 +279,7 @@ app.MapDelete("/proxy", async context =>
 app.Run();
 
 
+// Dingtalk user authentication functions
 
 async Task<string> RequestAccessTokenAsync()
 {
@@ -332,6 +340,7 @@ async Task<string> RequestUserJobNumberAsync(string accessToken, string userid)
     }
 }
 
+// Auxiliary functions
 
 string GetMd5Hash(string input)
 {
